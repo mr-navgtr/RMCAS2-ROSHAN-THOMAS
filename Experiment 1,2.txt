@@ -1,0 +1,92 @@
+create table DEPOSIT (ACTNO varchar(10) CHECK(ACTNO LIKE 'D%') primary key ,CNAME varchar(15) REFERENCES CUSTOMER1(CNAME),BNAME varchar(20) REFERENCES BRANCH1(BNAME),AMOUNT float(8,2) NOT NULL,ADATE DATE);
+
+create table BRANCH (BNAME VARCHAR(20) PRIMARY KEY,CITY VARCHAR(30) CHECK (CITY IN ('NAGPUR','DELHI','BANGALORE','BOMBAY')) NOT NULL);
+
+create table CUSTOMER (CNAME VARCHAR(15) PRIMARY KEY,CITY VARCHAR(20) NOT NULL);
+
+create table BORROW (LOANNO VARCHAR(8) PRIMARY KEY check (LOANNO LIKE "L%"),CNAME VARCHAR(15),FOREIGN KEY (CNAME) REFERENCES CUSTOMER1(CNAME),BNAME VARCHAR(20),FOREIGN KEY(BNAME) REFERENCES BRANCH1(BNAME),AMOUNT FLOAT(8,2) CHECK (AMOUNT > 0) NOT NULL);
+
+INSERT INTO `CUSTOMER`(`CNAME`, `CITY`) VALUES ('ANIL','CULCUTTA'),
+   ('SUNIL','DELHI'),('MEHUL','BARODA'),('MANDAR','PANTA'),
+   ('MADHURI','NAGPUR'),('PRAMOD','NAGPUR'),('SANDIP','SURAT'),
+   ('SHIVANI','BOMBAY'),('KRANTI','BOMBAY'),('NAREN','BOMBAY');
+
+INSERT INTO `DEPOSIT`(`ACTNO`, `CNAME`, `BNAME`, `AMOUNT`, `ADATE`) VALUES
+   ('D100','ANIL','VRCE',1000,'1995-03-01'),('D101','SUNIL','AJNI',5000.00,'1996-01-04'),
+   ('D102','MEHUL','KAROLBAGH',3500.00,'1995-11-17'),('D104','MADHURI','CHANDNI',1200.00,'1995-12-17'),
+   ('D105','PRAMOD','M.G.ROAD',3000.00,'1996-03-27'),('D106','SANDIP','ANDHERI',2000.00,'1996-03-31'),
+   ('D107','SHIVANI','VIRAR',1000.00,'1995-09-05'),('D108','KRANTI','NEHRU PLACE',5000.00,'1995-07-02'),
+   ('D109','NAREN','POWAI',7000.00,'1995-08-10');
+
+INSERT INTO BRANCH(BNAME, CITY) VALUES 
+   ('VRCE','NAGPUR'),('AJNI','NAGPUR'),('KAROLBAGH','DELHI'),
+   ('CHANDNI','DELHI'),('DHARAMPETH','NAGPUR'),('MG ROAD','BANGALORE'),
+   ('ANDHERI','BOMBAY'),('NEHRU PALACE','DELHI'),('POWAI','BOMBAY');
+
+INSERT INTO BORROW VALUES
+   ('L201','ANIL','VRCE',1000.00),('L206','MEHUL','AJNI',5000.00),('L311','SUNIL','DHARAMPETH',3000.00),
+   ('L321','MADHURI','ANDHERI',2000.00),('L371','PRAMOD','VIRAR',8000.00),('L481','KRANTI','NEHRU PLACE',3000.00);
+
+
+/*ASSIGNMENT NO. 2: SELECTING DATA FROM SINGLE TABLE*/
+/*1. List all data from table deposite*/
+ SELECT*FROM DEPOSIT;
+
+/*2.List all data from borrow*/
+ SELECT*FROM BORROW;
+
+/*3.List all data from customer*/
+ SELECT*FROM CUSTOMER;
+	
+/*4.List all data from branch*/
+ SELECT*FROM BRANCH;
+
+/*5.Give account no and amount of deposite*/
+SELECT ACTNO,AMOUNT FROM DEPOSIT;
+ 
+/*6.Give customer name and account no of depositors*/
+ SELECT CNAME,ACTNO FROM DEPOSIT;
+
+/*7.Give name of customers*/
+SELECT CNAME FROM CUSTOMER;
+ 
+/*8.Give name of branches*/
+  SELECT BNAME FROM BRANCH;
+
+/*9.Give name of borrows*/
+ SELECT CNAME FROM BORROW;
+ 
+/*10.Give names of customer living in city Nagpur*/
+ SELECT CNAME FROM CUSTOMER WHERE CITY='NAGPUR';
+ 
+/*11.Give names of depositors having amount greater than 4000*/
+ select CNAME from DEPOSIT D where AMOUNT>4000;
+
+/*12.Give account date of Anil
+ SELECT ADATE FROM DEPOSIT where CNAME='ANIL';
+
+/*13.Give name of all branches located in Bombay
+ select BNAME from BRANCH where CITY='Bombay';
+
+/*14.Give name of borrower having loan number l205
+select CNAME from BORROW where LOANNO='L205';
+
+/*15.Give names of depositors having account at VRCE
+select CNAME from DEPOSIT WHERE BNAME='VRCE';
+
+/*16.Give names of all branched located in city Delhi
+select BNAME from BRANCH WHERE CITY='Delhi';
+
+/*17.Give name of the customers who opened account date ‘1-12-96’
+select CNAME from DEPOSIT WHERE ADATE='1996-12-1';
+
+/*18.Give account no and deposit amount of customers having account opened between dates ‘1-12-96’  and  ‘1-5-96’
+select ACTNO,AMOUNT from DEPOSIT WHERE ADATE BETWEEN '1996-12-1' AND '1996-05-1';
+
+/*19.Give name of the city where branch KAROLBAGH is located*/
+SELECT CITY FROM BRANCH WHERE BNAME='KAROLBAGH';
+
+/*20.Give details of customer ANIL */
+SELECT * from customer join borrow on customer.cname=borrow.cname join deposit on deposit.cname=borrow.cname where customer.cname='anil';
+
+
